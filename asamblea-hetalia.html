@@ -1,0 +1,1633 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Fan site de Hetalia: Axis Powers con fichas de personajes, galería, multimedia, quiz y API de anime." />
+  <title>Hetalia ★ World Meeting</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Kosugi+Maru&family=Yomogi&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --sky:#63cadb; --sky2:#b9ebef; --navy:#174d5c; --red:#dd4b4f;
+      --yellow:#ffe67c; --cream:#fff7d2; --paper:#fffdf5; --ink:#26383e;
+      --green:#67ac70; --purple:#8868ae; --shadow:6px 6px 0 var(--ink);
+      --radius:9px; --max:1280px;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;color:var(--ink);font-family:"Kosugi Maru",system-ui,sans-serif;line-height:1.65;
+      background:
+        radial-gradient(circle at 8% 9%,rgba(255,255,255,.55) 0 3px,transparent 4px),
+        radial-gradient(circle at 86% 15%,rgba(255,255,255,.38) 0 4px,transparent 5px),
+        repeating-linear-gradient(0deg,rgba(255,255,255,.05) 0 3px,transparent 3px 24px),
+        var(--sky);
+    }
+    a{color:inherit} button,input,select,textarea{font:inherit} button{cursor:pointer}
+    img,video{max-width:100%}
+    .site{width:min(var(--max),calc(100% - 24px));margin:14px auto;background:rgba(255,253,245,.97);border:4px solid var(--ink);box-shadow:10px 10px 0 rgba(38,56,62,.25)}
+    .country-ribbon{height:12px;border-bottom:3px solid var(--ink);background:repeating-linear-gradient(90deg,
+      #2d8d54 0 45px,#f7f7f7 45px 90px,#d83f48 90px 135px,#1b4778 135px 180px,#f0cf42 180px 225px,
+      #b9273e 225px 270px,#fff 270px 315px,#008c55 315px 360px)}
+    .mast{
+      position:relative;padding:18px 22px 14px;overflow:hidden;
+      background:
+        radial-gradient(circle at 78% 22%,rgba(255,255,255,.85),transparent 15%),
+        linear-gradient(110deg,#fff1a6 0%,#fff8cf 44%,#ffdca5 100%);
+      border-bottom:4px solid var(--ink);
+    }
+    .mast::after{
+      content:"";position:absolute;inset:auto -30px -70px auto;width:300px;height:170px;opacity:.45;
+      background:repeating-radial-gradient(circle,transparent 0 14px,rgba(45,142,154,.45) 15px 18px,transparent 19px 34px);
+      transform:rotate(-12deg)
+    }
+    .mast-grid{display:grid;grid-template-columns:250px 1fr 230px;gap:18px;align-items:center;position:relative;z-index:1}
+    .logo-card{padding:9px;background:#fff;border:3px solid var(--ink);box-shadow:5px 5px 0 var(--ink);transform:rotate(-1.2deg)}
+    .logo-card img{width:100%;height:105px;object-fit:contain;display:block}
+    .logo-card .fallback{font-weight:900;text-align:center;color:var(--red);padding:28px 8px;font-size:1.25rem}
+    .mast h1{margin:0;color:var(--red);font-size:clamp(2rem,5vw,4.6rem);line-height:.9;letter-spacing:.06em;text-shadow:3px 3px 0 #fff}
+    .mast h1 span{display:block;color:var(--navy);font-size:.32em;letter-spacing:.28em;margin-top:14px}
+    .mast .jp{font-size:.82rem;letter-spacing:.16em;color:var(--navy);font-weight:700}
+    .mast .sub{max-width:700px;margin:.7rem 0 0}
+    .head-widget{border:3px solid var(--ink);background:rgba(255,255,255,.84);padding:11px;box-shadow:5px 5px 0 var(--ink);transform:rotate(1.1deg)}
+    .head-widget h3{margin:0;color:var(--red);font-size:1rem}
+    .head-widget .live{display:flex;align-items:center;gap:6px;font-size:.78rem;margin-top:5px}
+    .dot{width:9px;height:9px;border-radius:50%;background:#aeb8ba;display:inline-block}
+    .dot.ok{background:#4caf67;box-shadow:0 0 0 4px rgba(76,175,103,.15)}
+    .layout{display:grid;grid-template-columns:190px 1fr}
+    aside{border-right:3px solid var(--ink);background:#f5f0dc;padding:12px;position:sticky;top:0;height:max-content;max-height:100vh;overflow:auto}
+    .nav-title{text-align:center;font-weight:900;letter-spacing:.16em;color:var(--navy);padding:6px}
+    .nav a,.nav button{display:block;width:100%;text-decoration:none;text-align:left;border:2px solid var(--ink);background:#fff;padding:9px 10px;margin:7px 0;font-weight:800;font-size:.83rem;transition:.16s}
+    .nav a:hover,.nav a.active,.nav button:hover{background:var(--yellow);transform:translateX(4px)}
+    .nav button{color:var(--ink)}
+    .side-note{margin-top:13px;padding:9px;border:2px dashed var(--ink);font-size:.74rem;background:#fff9dc}
+    main{padding:22px}
+    section{scroll-margin-top:18px;padding:15px 0 40px}
+    section+section{border-top:3px dashed rgba(38,56,62,.32);padding-top:32px}
+    .eyebrow{font-family:"Yomogi",cursive;color:var(--red);font-size:1.05rem;margin:0}
+    h2{font-size:clamp(1.8rem,3.4vw,2.9rem);line-height:1.05;color:var(--navy);margin:.2rem 0 .75rem}
+    h3,h4{color:var(--navy);line-height:1.2}
+    .small{font-size:.8rem;color:#617176}
+    .panel{border:3px solid var(--ink);background:var(--paper);box-shadow:var(--shadow);border-radius:var(--radius)}
+    .paper{border:3px solid var(--ink);background:#fffdf7;border-radius:var(--radius)}
+    .intro{display:grid;grid-template-columns:1.25fr .85fr;gap:16px}
+    .intro-main{padding:20px;background:linear-gradient(135deg,#fff5bd,#fffdf1 58%,#dff6f7)}
+    .intro-main h2{font-size:clamp(2.2rem,5vw,4rem);color:var(--red);text-shadow:2px 2px 0 #fff}
+    .sticker-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+    .sticker{border:2px solid var(--ink);padding:4px 9px;background:var(--yellow);font-size:.74rem;font-weight:900;transform:rotate(-1deg)}
+    .sticker:nth-child(2){background:#d7f0d5;transform:rotate(1deg)}
+    .sticker:nth-child(3){background:#ffd9d5}
+    .sticker:nth-child(4){background:#e1defa}
+    .visual{
+      position:relative;
+      background:#dff4f6;
+      min-height:330px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      overflow:visible;
+      padding:12px;
+    }
+    .visual .pin{
+      top:-9px;
+      z-index:4;
+    }
+    .visual .pin.green{right:39px}
+    .visual .pin.yellow{right:60px}
+    .visual .petal-field{
+      z-index:0;
+      overflow:hidden;
+      border-radius:inherit;
+    }
+    .visual > img,
+    .visual > .caption{
+      position:relative;
+      z-index:1;
+    }
+    .visual .pin{z-index:20}
+
+    .visual img{
+      width:auto;
+      height:auto;
+      max-width:100%;
+      max-height:620px;
+      object-fit:contain;
+      object-position:center center;
+      display:block;
+      margin:auto;
+      background:transparent;
+    }
+    .visual.wide img,.visual.landscape img{width:100%;height:auto}
+    .visual.square img{width:auto;height:auto;max-width:100%;max-height:100%}
+    .visual.portrait img,.visual.tall img{width:auto;height:auto;max-width:100%;max-height:620px}
+    .visual .caption{position:absolute;left:10px;bottom:10px;background:var(--cream);border:2px solid var(--ink);padding:5px 8px;font-size:.74rem;font-weight:900}
+    .feature-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:15px}
+    .feature{padding:13px;border:3px solid var(--ink);background:#fff;box-shadow:4px 4px 0 var(--ink)}
+    .feature b{display:block;color:var(--red);font-size:.82rem}
+    .section-head{display:flex;justify-content:space-between;align-items:end;gap:14px;flex-wrap:wrap}
+    .toolbar{display:flex;flex-wrap:wrap;gap:7px;margin:14px 0}
+    .toolbar button,.toolbar select{
+      border:2px solid var(--ink);background:#fff;padding:7px 11px;border-radius:999px
+    }
+    .toolbar button.active{background:var(--yellow)}
+    .character-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:15px}
+    .char{
+      overflow:hidden;background:#fff;border:3px solid var(--ink);box-shadow:5px 5px 0 var(--ink);position:relative
+    }
+    .char-head{display:grid;grid-template-columns:190px 1fr;gap:13px;padding:12px;background:linear-gradient(90deg,#e4f6f7,#fff8dc);border-bottom:3px solid var(--ink)}
+    .char-image{
+      width:100%;
+      height:100%;
+      max-width:100%;
+      max-height:100%;
+      object-fit:contain;
+      object-position:center center;
+      border:0;
+      outline:0;
+      background:transparent;
+      display:block;
+    }
+    .char-media{
+      width:100%;
+      height:245px;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      overflow:hidden;
+      background:transparent;
+      min-height:0;
+      border:0;
+    }
+    .char-media.portrait .char-image,.char-media.tall .char-image{
+      width:auto;
+      max-width:100%;
+      height:100%;
+      background:transparent;
+    }
+    .char-media.landscape .char-image,.char-media.wide .char-image{
+      width:100%;
+      height:100%;
+      background:transparent;
+    }
+    .group-tag{display:inline-block;border:2px solid var(--ink);background:#fff1a9;padding:4px 8px;font-weight:900;font-size:.7rem}
+    .char h3{font-size:1.55rem;margin:.3rem 0}
+    .human{color:var(--red);font-weight:900}
+    .char .summary{font-size:.9rem}
+    .facts{display:grid;grid-template-columns:repeat(2,1fr);gap:7px;margin-top:9px}
+    .fact{padding:7px;background:#fbfaf2;border:2px solid rgba(38,56,62,.45);font-size:.79rem}
+    .fact b{display:block;font-size:.64rem;text-transform:uppercase;letter-spacing:.08em;color:var(--navy)}
+    .char-body{padding:12px}
+    .traits{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
+    .trait{border:2px solid var(--ink);background:#edf8f8;padding:3px 7px;font-size:.7rem}
+    .char-actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}
+    .btn{border:2px solid var(--ink);background:var(--red);color:#fff;padding:7px 10px;font-weight:900;font-size:.76rem}
+    .btn.alt{background:#fff;color:var(--ink)}
+    .btn.green{background:var(--green)}
+    .btn.purple{background:var(--purple)}
+    .api-box{display:grid;grid-template-columns:1fr 1.3fr;gap:14px}
+    .api-console{padding:15px;background:#ecf8fa}
+    .api-console input{width:100%;border:2px solid var(--ink);padding:10px;background:#fff}
+    .api-status{padding:8px 10px;margin:10px 0;border:2px dashed var(--ink);background:#fff}
+    .api-result{padding:15px;min-height:245px}
+    .api-result .hero-info{display:grid;grid-template-columns:145px 1fr;gap:13px;align-items:start}
+    .api-result img{width:145px;height:auto;max-height:260px;object-fit:contain;object-position:center;border:3px solid var(--ink);background:#def4f6}
+    .stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:10px}
+    .stat{border:2px solid var(--ink);padding:8px;background:#fff}
+    .stat b{display:block;color:var(--navy);font-size:.67rem;text-transform:uppercase}
+    .timeline{display:grid;gap:9px}
+    .event{display:grid;grid-template-columns:120px 1fr;gap:10px}
+    .date{background:var(--yellow);border:2px solid var(--ink);padding:8px;font-weight:900;text-align:center}
+    .event .content{border:2px solid var(--ink);background:#fff;padding:8px 11px}
+    .media-grid{
+      display:grid;
+      gap:12px;
+      align-items:stretch;
+    }
+    .media-ring{
+      display:grid;
+      grid-template-columns:minmax(0,.82fr) minmax(0,1.6fr) minmax(0,.82fr);
+      grid-template-areas:
+        "tl top tr"
+        "left main right"
+        "bl bottom br";
+      gap:12px;
+      align-items:start;
+    }
+    .media-ring .media-card{
+      border:3px solid var(--ink);
+      background:#fff;
+      padding:7px;
+      position:relative;
+      min-width:0;
+      align-self:start;
+      transition:transform .18s,box-shadow .18s;
+      grid-column:auto !important;
+    }
+    .media-ring .media-card:hover{transform:translateY(-2px);box-shadow:0 5px 0 rgba(38,56,62,.22)}
+    .media-ring .ring-tl{grid-area:tl}
+    .media-ring .ring-top{grid-area:top}
+    .media-ring .ring-tr{grid-area:tr}
+    .media-ring .ring-left{grid-area:left}
+    .media-ring .main-video{grid-area:main}
+    .media-ring .ring-right{grid-area:right}
+    .media-ring .ring-bl{grid-area:bl}
+    .media-ring .ring-bottom{grid-area:bottom}
+    .media-ring .ring-br{grid-area:br}
+    .media-card img,.media-card video{
+      width:100%;
+      height:auto;
+      max-width:100%;
+      max-height:none;
+      object-fit:contain;
+      object-position:center;
+      display:block;
+      background:#def4f6;
+    }
+    .media-card.portrait img,.media-card.tall img,
+    .media-card.portrait video,.media-card.tall video{
+      width:auto;
+      max-width:100%;
+    }
+    .media-card figcaption{font-size:.74rem;padding:6px 1px 0;line-height:1.45}
+    .quiz{display:grid;grid-template-columns:1fr .8fr;gap:14px}
+    .quiz-card{padding:16px}
+    .question{font-weight:900;font-size:1.1rem;color:var(--navy);margin-bottom:12px}
+    .answers{display:grid;gap:8px}
+    .answers button{border:2px solid var(--ink);background:#fff;text-align:left;padding:9px}
+    .answers button.correct{background:#d8f0d7}.answers button.wrong{background:#ffd9d7}
+    .score{padding:11px;border:3px solid var(--ink);background:var(--cream);font-weight:900;text-align:center}
+    .gallery{
+      display:grid;
+      grid-template-columns:repeat(12,minmax(0,1fr));
+      grid-auto-flow:dense;
+      gap:10px;
+      align-items:start;
+    }
+    .gallery figure{
+      margin:0;
+      border:3px solid var(--ink);
+      padding:6px;
+      background:#fff;
+      cursor:zoom-in;
+      box-shadow:3px 3px 0 var(--ink);
+      min-width:0;
+      align-self:start;
+    }
+    .gallery figure.wide{grid-column:span 4}
+    .gallery figure.landscape{grid-column:span 3}
+    .gallery figure.square{grid-column:span 3}
+    .gallery figure.portrait{grid-column:span 2}
+    .gallery figure.tall{grid-column:span 2}
+    .gallery img{
+      width:100%;
+      height:auto;
+      max-height:none;
+      object-fit:contain;
+      object-position:center;
+      background:#e7f5f6;
+      border:2px solid var(--ink);
+      display:block;
+    }
+    .notes{display:grid;grid-template-columns:1fr 1fr;gap:13px}
+    .notes form,.notes-list{padding:15px}
+    label{display:block;font-weight:900;margin-bottom:5px}
+    input,textarea{width:100%;border:2px solid var(--ink);padding:9px;background:#fff}
+    textarea{min-height:115px}
+    footer{padding:17px 22px;border-top:4px solid var(--ink);background:#f4edd7;font-size:.8rem}
+    .footer-row{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+    .modal{position:fixed;inset:0;display:none;place-items:center;padding:20px;background:rgba(10,33,40,.72);z-index:50}
+    .modal.open{display:grid}
+    .modal-card{width:min(820px,100%);max-height:90vh;overflow:auto;background:#fffdf5;border:4px solid var(--ink);box-shadow:10px 10px 0 var(--ink);padding:15px;position:relative}
+    .close{position:absolute;right:10px;top:8px;border:2px solid var(--ink);background:var(--yellow);font-weight:900}
+    .modal-grid{display:grid;grid-template-columns:220px 1fr;gap:15px}
+    .modal-grid .detail-image{
+      width:220px;
+      height:auto;
+      max-height:430px;
+      object-fit:contain;
+      object-position:center;
+      display:block;
+      border:0;
+      outline:0;
+      background:transparent;
+    }
+    .lightbox{position:fixed;inset:0;display:none;place-items:center;background:rgba(0,0,0,.86);z-index:60;padding:25px}
+    .lightbox.open{display:grid}
+    .lightbox img{max-height:86vh;max-width:92vw;border:4px solid #fff}
+    .toast{position:fixed;right:18px;bottom:18px;z-index:70;background:var(--ink);color:#fff;padding:10px 13px;border:3px solid #fff;box-shadow:4px 4px 0 rgba(0,0,0,.25);transform:translateY(20px);opacity:0;pointer-events:none;transition:.2s}
+    .toast.show{transform:none;opacity:1}
+    body.night{--sky:#183f4a;--cream:#f7efc5;--paper:#fefcf2;--ink:#1b2b30;--yellow:#f6d765}
+
+    /* ===== HETALIA THEME COLLECTION ===== */
+    body::before{
+      content:"";
+      position:fixed;
+      width:220px;height:220px;left:-80px;top:18%;
+      border-radius:50%;
+      border:17px solid rgba(255,255,255,.13);
+      box-shadow:34px 34px 0 -9px rgba(255,255,255,.10),68px 68px 0 -16px rgba(255,255,255,.07);
+      pointer-events:none;z-index:-1;
+    }
+    body::after{
+      content:"✿";
+      position:fixed;right:3%;top:12%;
+      color:rgba(255,255,255,.42);font-size:5.3rem;
+      transform:rotate(15deg);pointer-events:none;z-index:-1;
+    }
+    .theme-box{margin-top:12px;padding:9px;border:2px dashed var(--ink);background:#fff9dc}
+    .theme-title{color:var(--navy);font-size:.71rem;font-weight:900;letter-spacing:.10em;margin-bottom:7px}
+    .theme-swatches{display:grid;grid-template-columns:repeat(4,1fr);gap:5px}
+    .theme-swatch{min-width:0;height:28px;border:2px solid var(--ink);padding:0;position:relative;overflow:hidden;box-shadow:2px 2px 0 rgba(38,56,62,.22)}
+    .theme-swatch span{position:absolute;left:0;right:0;bottom:0;padding:1px 0;font-size:.44rem;line-height:1.1;background:rgba(255,255,255,.84);font-weight:900}
+    .theme-swatch.active{outline:3px solid var(--red);transform:translateY(-1px)}
+
+    .theme-classic{--sky:#63cadb;--sky2:#b9ebef;--navy:#174d5c;--red:#dd4b4f;--yellow:#ffe67c;--cream:#fff7d2;--paper:#fffdf5;--ink:#26383e;--green:#67ac70;--purple:#8868ae}
+    .theme-italy{--sky:#cfeecf;--sky2:#f4fbe5;--navy:#155d42;--red:#b93440;--yellow:#f7e68e;--cream:#fff8d4;--paper:#fffef8;--ink:#294339;--green:#4f9a70;--purple:#8162a6}
+    .theme-japan{--sky:#d7edf3;--sky2:#f6fbfc;--navy:#315d76;--red:#bf3952;--yellow:#f5e39c;--cream:#fff9e6;--paper:#fffefd;--ink:#304149;--green:#5d9e7c;--purple:#766aa8}
+    .theme-france{--sky:#dfe1fa;--sky2:#f8eaf4;--navy:#374f8c;--red:#c64368;--yellow:#f3df9a;--cream:#fff3df;--paper:#fffdfa;--ink:#31384b;--green:#5a9a8b;--purple:#7b61aa}
+    .theme-china{--sky:#f2d6c7;--sky2:#fff3d9;--navy:#96252b;--red:#ce352f;--yellow:#f4d35f;--cream:#fff3bd;--paper:#fffdf6;--ink:#4b302b;--green:#6d9d4d;--purple:#7e5f99}
+    .theme-russia{--sky:#cbdff0;--sky2:#edf5ff;--navy:#315b91;--red:#b63b51;--yellow:#f1df9b;--cream:#eef6ff;--paper:#fffefa;--ink:#293c50;--green:#669175;--purple:#7562a5}
+    .theme-world{--sky:#f4d79a;--sky2:#fff1cb;--navy:#167579;--red:#d35a42;--yellow:#f4d45d;--cream:#fff4ca;--paper:#fffdf6;--ink:#3d4a40;--green:#6fa55e;--purple:#8465a3}
+
+    body.theme-classic{background:radial-gradient(circle at 9% 10%,rgba(255,255,255,.55) 0 4px,transparent 5px),radial-gradient(circle at 86% 16%,rgba(255,255,255,.38) 0 6px,transparent 7px),repeating-linear-gradient(0deg,rgba(255,255,255,.05) 0 3px,transparent 3px 24px),var(--sky)}
+    body.theme-italy{background:repeating-radial-gradient(circle at 88% 12%,transparent 0 15px,rgba(76,150,98,.18) 16px 20px,transparent 21px 36px),radial-gradient(circle at 13% 78%,rgba(255,255,255,.5) 0 10px,transparent 11px),linear-gradient(130deg,rgba(255,255,255,.22),transparent 45%),var(--sky)}
+    body.theme-japan{background:repeating-radial-gradient(circle at 89% 11%,transparent 0 16px,rgba(74,117,147,.18) 17px 20px,transparent 21px 37px),radial-gradient(circle at 14% 16%,rgba(192,54,76,.16) 0 9px,transparent 10px),var(--sky)}
+    body.theme-france{background:repeating-radial-gradient(circle at 10% 11%,transparent 0 17px,rgba(90,75,150,.18) 18px 21px,transparent 22px 38px),radial-gradient(circle at 85% 76%,rgba(204,63,101,.17) 0 12px,transparent 13px),var(--sky)}
+    body.theme-china{background:radial-gradient(circle at 87% 13%,rgba(201,54,46,.17) 0 9px,transparent 10px),repeating-radial-gradient(circle at 11% 80%,transparent 0 17px,rgba(118,95,37,.18) 18px 22px,transparent 23px 40px),var(--sky)}
+    body.theme-russia{background:repeating-radial-gradient(circle at 90% 11%,transparent 0 15px,rgba(57,95,146,.19) 16px 19px,transparent 20px 36px),linear-gradient(145deg,rgba(255,255,255,.23),transparent 47%),var(--sky)}
+    body.theme-world{background:repeating-radial-gradient(circle at 86% 10%,transparent 0 15px,rgba(33,124,126,.20) 16px 20px,transparent 21px 37px),radial-gradient(circle at 13% 83%,rgba(221,90,61,.17) 0 12px,transparent 13px),linear-gradient(130deg,rgba(255,236,156,.42),transparent 48%),var(--sky)}
+    body[class*="theme-"] .mast{background:radial-gradient(circle at 78% 22%,rgba(255,255,255,.88),transparent 16%),repeating-radial-gradient(circle at 90% 90%,transparent 0 13px,rgba(255,255,255,.22) 14px 16px,transparent 17px 29px),linear-gradient(110deg,color-mix(in srgb,var(--yellow) 57%,white),color-mix(in srgb,var(--cream) 85%,white) 45%,color-mix(in srgb,var(--sky) 35%,white))}
+    .theme-swatch[data-theme="classic"]{background:linear-gradient(135deg,#63cadb 0 33%,#ffe67c 33% 66%,#dd4b4f 66%)}
+    .theme-swatch[data-theme="italy"]{background:linear-gradient(90deg,#4f9a70 0 33%,#fff 33% 66%,#b93440 66%)}
+    .theme-swatch[data-theme="japan"]{background:radial-gradient(circle,#bf3952 0 24%,#fff 26% 100%)}
+    .theme-swatch[data-theme="france"]{background:linear-gradient(90deg,#4966a2 0 33%,#fff 33% 66%,#c64368 66%)}
+    .theme-swatch[data-theme="china"]{background:linear-gradient(135deg,#ce352f 0 48%,#f4d35f 49% 62%,#96252b 63%)}
+    .theme-swatch[data-theme="russia"]{background:linear-gradient(#fff 0 33%,#5074ac 33% 66%,#bd3d52 66%)}
+    .theme-swatch[data-theme="world"]{background:linear-gradient(135deg,#63cadb 0 33%,#6fa55e 33% 66%,#efad4a 66%)}
+
+    .character-music{margin-top:10px;padding:9px;border:2px solid var(--ink);background:linear-gradient(90deg,#fff9da,#eaf8f7)}
+    .character-music .music-label{display:flex;justify-content:space-between;gap:8px;align-items:center;margin-bottom:5px;font-size:.69rem;font-weight:900;color:var(--navy)}
+    .character-music audio{width:100%;height:34px;display:block}
+    .music-file{font-size:.61rem;color:#647278;font-weight:400}
+    .detail-music{margin-top:11px;padding:11px;border:2px dashed var(--ink);background:#fff9dc}
+    .detail-music audio{width:100%;margin-top:7px}
+    @media(max-width:840px){.theme-swatches{grid-template-columns:repeat(7,1fr)}}
+    @media(max-width:560px){.theme-swatches{grid-template-columns:repeat(4,1fr)}}
+
+
+    /* ===== DECORACIÓN EXTRA · estética de anime/enciclopedia colorida ===== */
+    .site{position:relative;overflow:hidden}
+    .site::before{
+      content:"";
+      position:absolute;
+      width:180px;height:180px;
+      top:355px;right:-95px;
+      border-radius:50%;
+      border:15px solid rgba(83,197,216,.16);
+      box-shadow:
+        -34px 35px 0 -8px rgba(221,75,79,.12),
+        -68px 70px 0 -18px rgba(239,195,74,.15);
+      pointer-events:none;
+      z-index:0;
+    }
+    .site::after{
+      content:"✦";
+      position:absolute;
+      left:1.7%;top:610px;
+      color:rgba(221,75,79,.22);
+      font-size:4rem;
+      transform:rotate(-12deg);
+      pointer-events:none;
+      z-index:0;
+    }
+    main,.layout,footer,.mast{position:relative;z-index:1}
+
+    .header-sparkles{
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      overflow:hidden;
+    }
+    .spark{
+      position:absolute;
+      color:rgba(255,255,255,.78);
+      font-size:1.2rem;
+      animation:twinkle 3.7s ease-in-out infinite;
+    }
+    .spark:nth-child(1){left:38%;top:18%;animation-delay:.3s}
+    .spark:nth-child(2){left:53%;top:72%;font-size:1.7rem;animation-delay:1s}
+    .spark:nth-child(3){left:79%;top:42%;font-size:.9rem;animation-delay:1.8s}
+    .spark:nth-child(4){left:14%;top:31%;font-size:1rem;animation-delay:2.2s}
+    @keyframes twinkle{50%{transform:scale(1.35) rotate(12deg);opacity:.45}}
+
+    .conference-stamps{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      margin:15px 0 0;
+    }
+    .conference-stamp{
+      border:3px solid var(--ink);
+      background:#fff;
+      padding:4px 10px;
+      font-size:.68rem;
+      font-weight:900;
+      letter-spacing:.05em;
+      box-shadow:3px 3px 0 var(--ink);
+      transform:rotate(-2deg);
+    }
+    .conference-stamp:nth-child(2){transform:rotate(2deg);background:var(--yellow)}
+    .conference-stamp:nth-child(3){transform:rotate(-1deg);background:#dff4e4}
+    .conference-stamp:nth-child(4){transform:rotate(2.5deg);background:#ffdfe0}
+    .conference-stamp:nth-child(5){transform:rotate(-2deg);background:#e4e0fa}
+
+    .section-banner{
+      position:relative;
+      margin:0 0 14px;
+      padding:8px 14px;
+      border:3px solid var(--ink);
+      background:linear-gradient(90deg,var(--yellow),#fff,var(--sky2));
+      box-shadow:4px 4px 0 var(--ink);
+      overflow:hidden;
+    }
+    .section-banner::before{
+      content:"";
+      position:absolute;right:-8px;top:-16px;
+      width:90px;height:90px;
+      border-radius:50%;
+      border:10px solid rgba(255,255,255,.5);
+      box-shadow:-21px 21px 0 -4px rgba(255,255,255,.28);
+    }
+    .section-banner::after{
+      content:"✿  ✦  ○  ✿";
+      position:absolute;
+      right:12px;bottom:3px;
+      color:rgba(23,77,92,.22);
+      font-size:1rem;
+      letter-spacing:.18em;
+    }
+    .section-banner h2{margin:0;position:relative;z-index:1}
+    .section-banner .eyebrow{position:relative;z-index:1}
+
+    .floral-doodle{
+      position:relative;
+      height:42px;
+      margin:7px 0 5px;
+      overflow:hidden;
+      pointer-events:none;
+    }
+    .floral-doodle::before{
+      content:"";
+      position:absolute;
+      left:-5%;right:-5%;top:19px;
+      height:4px;
+      border-top:3px solid rgba(92,158,124,.34);
+      border-radius:50%;
+      transform:rotate(-3deg);
+      box-shadow:0 9px 0 -1px rgba(197,67,103,.18);
+    }
+    .floral-doodle::after{
+      content:"✿     ○     ✿     ○     ✿";
+      position:absolute;left:5%;top:1px;
+      color:rgba(197,67,103,.35);
+      font-size:1.35rem;
+      letter-spacing:.35em;
+      animation:floatFlowers 7s ease-in-out infinite;
+    }
+    @keyframes floatFlowers{50%{transform:translateX(16px) translateY(-3px)}}
+
+    .corner-ribbon{
+      position:absolute;
+      top:18px;right:-34px;
+      width:150px;
+      padding:5px 0;
+      text-align:center;
+      transform:rotate(35deg);
+      background:var(--red);
+      color:#fff;
+      border-top:2px solid var(--ink);
+      border-bottom:2px solid var(--ink);
+      font-size:.62rem;
+      font-weight:900;
+      letter-spacing:.12em;
+      box-shadow:2px 2px 0 rgba(38,56,62,.3);
+      z-index:3;
+    }
+
+    .character-section-decor{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      margin:-4px 0 12px;
+      flex-wrap:wrap;
+    }
+    .mini-medals{display:flex;gap:6px;flex-wrap:wrap}
+    .mini-medal{
+      min-width:34px;height:34px;
+      display:grid;place-items:center;
+      border:2px solid var(--ink);
+      border-radius:50%;
+      background:var(--yellow);
+      font-weight:900;
+      box-shadow:2px 2px 0 var(--ink);
+      animation:medalBob 4s ease-in-out infinite;
+    }
+    .mini-medal:nth-child(2){background:#d9efdc;animation-delay:.4s}
+    .mini-medal:nth-child(3){background:#dce7f7;animation-delay:.8s}
+    .mini-medal:nth-child(4){background:#f4d9ea;animation-delay:1.2s}
+    @keyframes medalBob{50%{transform:translateY(-4px)}}
+
+    .api-ribbon{
+      display:inline-block;
+      padding:5px 9px;
+      border:2px solid var(--ink);
+      background:#dff4f6;
+      font-size:.67rem;
+      font-weight:900;
+      transform:rotate(-1deg);
+      box-shadow:2px 2px 0 var(--ink);
+    }
+
+    .gallery-note{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 11px;
+      border:2px dashed var(--ink);
+      background:#fff9dc;
+      margin:0 0 12px;
+      font-size:.74rem;
+    }
+    .gallery-note .icon{
+      width:30px;height:30px;display:grid;place-items:center;
+      border:2px solid var(--ink);border-radius:50%;background:var(--yellow);font-weight:900;
+      flex:0 0 auto;
+    }
+
+    .petal-field{
+      position:absolute;
+      inset:0;
+      overflow:hidden;
+      pointer-events:none;
+    }
+    .petal{
+      position:absolute;
+      width:12px;height:12px;
+      background:#f2a8b7;
+      border:2px solid rgba(38,56,62,.32);
+      border-radius:70% 0 70% 0;
+      opacity:.52;
+      animation:petalFall 9s linear infinite;
+    }
+    .petal.p1{left:8%;top:-14px}.petal.p2{left:31%;top:-22px;animation-delay:1.4s;transform:scale(.75)}
+    .petal.p3{left:55%;top:-18px;animation-delay:3.2s;transform:scale(1.15)}
+    .petal.p4{left:76%;top:-12px;animation-delay:5s;transform:scale(.85)}
+    .petal.p5{left:91%;top:-16px;animation-delay:6.8s;transform:scale(.65)}
+    @keyframes petalFall{
+      0%{transform:translateY(-15px) rotate(0deg)}
+      100%{transform:translateY(500px) translateX(60px) rotate(240deg);opacity:0}
+    }
+
+    /* Tiras decorativas laterales dentro de las secciones */
+    .ink-card,.feature,.country-panel,.panel,.paper{
+      position:relative;
+    }
+    .pin{
+      position:absolute;
+      top:-9px;
+      right:18px;
+      width:13px;
+      height:13px;
+      border-radius:50%;
+      background:var(--red);
+      border:2px solid var(--ink);
+      box-shadow:0 2px 0 var(--ink);
+      z-index:4;
+    }
+    .pin.green{background:var(--green);right:39px}
+    .pin.yellow{background:var(--yellow);right:60px}
+
+    @media(max-width:560px){
+      .corner-ribbon{display:none}
+      .header-sparkles{opacity:.65}
+      .conference-stamps{gap:5px}
+      .conference-stamp{font-size:.59rem;padding:3px 7px}
+    }
+
+    .hidden{display:none!important}
+    /* Los recursos multimedia conservan siempre su proporción original. */
+    .visual,.media-card,.gallery figure,.char-image{overflow:hidden}
+    .visual img,.media-card img,.media-card video,.gallery img,.char-image,.api-result img{
+      aspect-ratio:auto;
+      object-position:center center;
+    }
+    .media-card figcaption,.gallery figcaption{word-break:break-word}
+
+    /* Corrección: los tres puntos de la portada deben sobresalir del borde */
+    .intro,
+    .intro-main,
+    .visual{
+      overflow:visible !important;
+    }
+    .visual .pin{
+      top:-8px !important;
+      z-index:20 !important;
+    }
+    .visual .pin.green{right:40px !important}
+    .visual .pin.yellow{right:62px !important}
+    @media(max-width:1080px){
+      .mast-grid{grid-template-columns:210px 1fr}
+      .head-widget{grid-column:1/-1}
+      .character-grid{grid-template-columns:1fr}
+      .media-ring{
+        grid-template-columns:minmax(0,1fr) minmax(0,1.45fr);
+        grid-template-areas:
+          "tl top"
+          "left main"
+          "bl main"
+          "bottom right"
+          "br tr";
+      }
+    }
+    @media(max-width:840px){
+      .layout{grid-template-columns:1fr}
+      aside{position:relative;max-height:none;border-right:0;border-bottom:3px solid var(--ink)}
+      .nav{display:flex;flex-wrap:wrap;gap:6px}.nav a,.nav button{flex:1 1 120px;margin:0}
+      .side-note{width:100%}
+      .intro,.api-box,.quiz,.notes{grid-template-columns:1fr}
+      .visual{min-height:260px;padding:8px}
+      .visual img{max-height:520px;max-width:100%}
+      .feature-grid{grid-template-columns:1fr}
+      .gallery{grid-template-columns:repeat(2,1fr)}
+    }
+    @media(max-width:560px){
+      .site{width:calc(100% - 8px);margin:4px auto}
+      .mast-grid{grid-template-columns:1fr}.mast{padding:14px}
+      main{padding:14px}.char-head{grid-template-columns:1fr}
+      .char-image{height:auto;max-height:430px;background:transparent}.char-media{background:transparent}.facts,.stat-row{grid-template-columns:1fr}
+      .media-grid,.gallery{grid-template-columns:1fr}
+      .media-ring{
+        display:grid;
+        grid-template-columns:1fr;
+        grid-template-areas:
+          "main"
+          "tl"
+          "top"
+          "tr"
+          "left"
+          "right"
+          "bl"
+          "bottom"
+          "br";
+      }
+      .event,.modal-grid{grid-template-columns:1fr}
+      .modal-grid .detail-image{width:100%;height:auto;max-height:420px;object-fit:contain}
+    }
+  </style>
+</head>
+<body>
+<div class="site">
+  <div class="country-ribbon"></div>
+
+  <header class="mast" id="top">
+    <div class="header-sparkles" aria-hidden="true">
+      <span class="spark">✦</span><span class="spark">✧</span><span class="spark">★</span><span class="spark">✿</span>
+    </div>
+    <div class="corner-ribbon">WORLD MEETING</div>
+    <div class="mast-grid">
+      <div class="logo-card">
+        <img src="images/logo.jpg" alt="Logo de Hetalia: Axis Powers"
+          onerror="this.style.display='none'; this.parentElement.insertAdjacentHTML('beforeend','<div class=&quot;fallback&quot;>HETALIA<br><small>AXIS POWERS</small></div>');">
+      </div>
+
+      <div>
+        <div class="jp">ヘタリア Axis Powers · WORLD CONFERENCE</div>
+        <h1>HETALIA <span>WORLD MEETING ★ FAN SITE</span></h1>
+        <p class="sub"><b>Una asamblea mundial donde cada nación tiene personalidad propia.</b> Diseño inspirado en el sitio web oficial de Hetalia (http://hetalia.com/top.htm).</p>
+      </div>
+
+      <div class="head-widget">
+        <h3>API STATUS / API通信</h3>
+        <div class="live"><span id="apiDot" class="dot"></span><span id="apiStatus">Esperando conexión…</span></div>
+        <div class="small" style="margin-top:5px">Puedes consultar sobre información actual de Hetalia.</div>
+      </div>
+    </div>
+  </header>
+
+  <div class="layout">
+    <aside>
+      <div class="nav-title">MENU · メニュー</div>
+      <nav class="nav" id="nav">
+        <a href="#inicio" class="active">TOP</a>
+        <a href="#historia">STORY</a>
+        <a href="#personajes">CHARACTER</a>
+        <a href="#api">API WORLD</a>
+        <a href="#galeria">GALLERY</a>
+        <a href="#multimedia">VIDEO / GIF</a>
+        <a href="#quiz">QUIZ</a>
+        <a href="#notas">MEMO</a>
+        <button id="nightBtn" type="button">☾ CAMBIAR TEMA</button>
+      </nav>
+      <div class="theme-box">
+        <div class="theme-title">THEME SELECT · テーマ</div>
+        <div class="theme-swatches" id="themeSwatches">
+          <button class="theme-swatch" data-theme="classic" type="button" title="Clásico"><span>CLASSIC</span></button>
+          <button class="theme-swatch" data-theme="italy" type="button" title="Italia"><span>ITALIA</span></button>
+          <button class="theme-swatch" data-theme="japan" type="button" title="Japón"><span>JAPÓN</span></button>
+          <button class="theme-swatch" data-theme="france" type="button" title="Francia"><span>FR.</span></button>
+          <button class="theme-swatch" data-theme="china" type="button" title="China"><span>CHINA</span></button>
+          <button class="theme-swatch" data-theme="russia" type="button" title="Rusia"><span>RUSIA</span></button>
+          <button class="theme-swatch" data-theme="world" type="button" title="World Meeting"><span>WORLD</span></button>
+        </div>
+      </div>
+      <div class="side-note">
+        <b>TIP</b><br>
+        Presiona <b>R</b> para elegir una nación al azar. Haz clic sobre las imágenes para ampliar.
+      </div>
+    </aside>
+
+    <main>
+      <section id="inicio">
+        <div class="intro">
+          <article class="panel intro-main"><span class="pin"></span><span class="pin green"></span><span class="pin yellow"></span>
+            <p class="eyebrow">WORLD MEETING · 世界会議</p>
+            <h2>¡La conferencia ya empezó!</h2>
+            <p><b>Hetalia: Axis Powers</b> es una comedia que personifica a las naciones como personajes humanos y las coloca en situaciones inspiradas en la historia y la cultura. El resultado mezcla acontecimientos internacionales, costumbres, gastronomía y relaciones entre países con un humor muy particular.</p>
+            <p>La serie se centra especialmente en Italia del Norte, Alemania y Japón, mientras que las Fuerzas Aliadas reúnen a personajes como Estados Unidos, Inglaterra, Francia, China y Rusia.</p>
+            
+            <div class="conference-stamps">
+              <span class="conference-stamp">✿ AXIS</span>
+              <span class="conference-stamp">○ ALLIES</span>
+              <span class="conference-stamp">★ HISTORY</span>
+              <span class="conference-stamp">✦ FAN SITE</span>
+            </div>
+            <div class="floral-doodle" aria-hidden="true"></div>
+            <div class="feature-grid">
+              <div class="feature"><b>01 · CHARACTER</b>Perfiles con información de cada personaje.</div>
+              <div class="feature"><b>02 · API</b>Puede ver información del anime mediante AniList.</div>
+              <div class="feature"><b>03 · INTERACTIVE</b>¡Puedes escuchar audios, realizar un quiz, ver videos y más!</div>
+            </div>
+          </article>
+
+          <article class="panel visual"><span class="pin"></span><span class="pin green"></span><span class="pin yellow"></span>
+            <div class="petal-field" aria-hidden="true">
+              <span class="petal p1"></span><span class="petal p2"></span><span class="petal p3"></span><span class="petal p4"></span><span class="petal p5"></span>
+            </div>
+            <img src="images/portada.jpg" alt="Visual principal" onerror="this.style.opacity='.16'">
+            <div class="caption">MAIN VISUAL · PORTADA</div>
+          </article>
+        </div>
+
+        
+      </section>
+
+      <section id="historia">
+        <div class="section-banner">
+          <p class="eyebrow">STORY · ストーリー</p>
+          <h2>Hetalia: Axis Powers</h2>
+        </div>
+        <div class="feature-grid">
+          <article class="feature">
+            <b>CONCEPTO</b>
+            <p>Las naciones aparecen personificadas como personajes humanos, y el humor surge de sus relaciones, costumbres y de la parodia de hechos históricos.</p>
+          </article>
+          <article class="feature">
+            <b>EJE</b>
+            <p>Italia del Norte, Alemania y Japón forman el trío central de la etapa Axis Powers.</p>
+          </article>
+          <article class="feature">
+            <b>ALIADOS</b>
+            <p>Estados Unidos, Inglaterra, Francia, China y Rusia destacan entre las principales Fuerzas Aliadas.</p>
+          </article>
+        </div>
+        <div class="timeline" style="margin-top:14px">
+          <div class="event"><div class="date">WEB COMIC</div><div class="content">La franquicia nació como webcómic de Hidekaz Himaruya y pasó posteriormente al manga y al anime.</div></div>
+          <div class="event"><div class="date">2009</div><div class="content">Hetalia: Axis Powers comenzó su emisión como ONA, con episodios cortos y un formato centrado en la comedia.</div></div>
+          <div class="event"><div class="date">WORLD</div><div class="content">Las distintas temporadas amplían el reparto y exploran más épocas, relaciones nacionales y situaciones cotidianas.</div></div>
+        </div>
+      </section>
+
+      <section id="personajes">
+        <div class="section-banner">
+          <p class="eyebrow">CHARACTER · キャラクター</p>
+          <h2>Personajes principales</h2>
+        </div>
+        <div class="character-section-decor">
+          <div class="mini-medals" aria-hidden="true">
+            <span class="mini-medal">★</span><span class="mini-medal">✿</span><span class="mini-medal">◎</span><span class="mini-medal">✦</span>
+          </div>
+          <span class="small">Eje · Aliados · nombres humanos · música</span>
+        </div>
+        <div class="section-head">
+          <div class="small"><b>ELENCO PRINCIPAL</b> · Abre cada ficha para conocer mejor al personaje.</div>
+        </div>
+
+        <div class="toolbar" id="filters">
+          <button class="active" data-filter="all">TODOS</button>
+          <button data-filter="Eje">EJE</button>
+          <button data-filter="Aliados">ALIADOS</button>
+          <button id="randomBtn" class="btn purple" type="button">★ NACIÓN AL AZAR</button>
+        </div>
+
+        <div class="character-grid" id="characterGrid"></div>
+      </section>
+
+      <section id="api">
+        <div class="section-banner">
+          <p class="eyebrow">API WORLD · API世界</p>
+          <h2>Información del anime en tiempo real</h2>
+        </div>
+        <span class="api-ribbon">LIVE ANIME DATA ★</span>
+        <div class="api-box">
+          <article class="panel api-console"><span class="pin"></span><span class="pin green"></span><span class="pin yellow"></span>
+            <h3>AniList GraphQL</h3>
+            <p class="small">Consulta la base de datos pública de AniList para buscar una serie, ver sus datos principales y cargar parte de su elenco.</p>
+            <label for="apiSearch">Buscar anime</label>
+            <input id="apiSearch" value="Hetalia: Axis Powers" placeholder="Ej.: Hetalia World Series">
+            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:9px">
+              <button id="apiLoad" class="btn" type="button">BUSCAR EN ANILIST</button>
+              <button id="apiCharacters" class="btn alt" type="button">VER ELENCO</button>
+            </div>
+            <div class="api-status" id="apiConsoleStatus">API: lista para consultar.</div>
+            <div class="small">Servicio público: <code>graphql.anilist.co</code></div>
+          </article>
+
+          <article class="panel api-result" id="apiResult"><span class="pin"></span><span class="pin green"></span><span class="pin yellow"></span>
+            <h3>Hetalia: Axis Powers</h3>
+            <p class="small">Pulsa “Buscar en AniList” para cargar información actual.</p>
+          </article>
+        </div>
+
+        <div class="paper hidden" id="apiCharacterList" style="margin-top:12px;padding:13px">
+          <div class="section-head"><h3 style="margin:0">ELENCO DE LA SERIE</h3><button class="btn alt" id="closeApiChars" type="button">OCULTAR</button></div>
+          <div class="gallery" id="apiCharsGrid" style="margin-top:10px"></div>
+        </div>
+      </section>
+
+      <section id="galeria">
+        <div class="section-banner">
+          <p class="eyebrow">GALLERY · ギャラリー</p>
+          <h2>Fotos e ilustraciones</h2>
+        </div>
+        <div class="gallery-note"><span class="icon">✿</span><span>Ilustraciones hechas por artistas oficiales de la serie.</span></div>
+        <div class="gallery" id="gallery">
+          <figure><img src="images/galeria1.jpg" alt="Galería 1"><figcaption> 
+</figcaption></figure>
+          <figure><img src="images/galeria2.jpg" alt="Galería 2"><figcaption> 
+</figcaption></figure>
+          <figure><img src="images/galeria3.jpg" alt="Galería 3"><figcaption> 
+</figcaption></figure>
+          <figure><img src="images/galeria4.jpg" alt="Galería 4"><figcaption> 
+</figcaption></figure>
+        </div>
+      </section>
+
+      <section id="multimedia">
+        <div class="section-banner">
+          <p class="eyebrow">SPECIAL · スペシャル</p>
+          <h2>GIFs y videos</h2>
+        </div>
+        <div class="gallery-note"><span class="icon">★</span><span>Gifs, ilustraciones oficiales de la serie y un video de este.</span></div>
+        <div class="media-grid">
+          <div class="media-ring">
+            <figure class="media-card ring-tl">
+              <img src="images/gif1.gif" alt="GIF decorativo 1">
+              <figcaption></figcaption>
+            </figure>
+
+            <figure class="media-card ring-top">
+              <img src="images/decorativa1.jpg" alt="Fotografía decorativa 01">
+              <figcaption></figcaption>
+            </figure>
+
+            <figure class="media-card ring-tr">
+              <img src="images/gif2.gif" alt="GIF decorativo 2">
+              <figcaption></figcaption>
+            </figure>
+
+            <figure class="media-card ring-left">
+              <img src="images/decorativa2.jpg" alt="Fotografía decorativa 02">
+              <figcaption></figcaption>
+            </figure>
+
+            <figure class="media-card main-video">
+              <video controls poster="images/video-poster.jpg">
+                <source src="videos/video-poster.mp4" type="video/mp4">
+              </video>
+              <figcaption>ALEMANIA CONOCE A ROMANO</figcaption>
+            </figure>
+
+            <figure class="media-card ring-right">
+              <img src="images/decorativa3.jpg" alt="Fotografía decorativa 03">
+              <figcaption></figcaption>
+            </figure>
+
+            <figure class="media-card ring-bl">
+              <img src="images/decorativa4.jpg" alt="Fotografía decorativa 04">
+              <figcaption></figcaption>
+            </figure>
+
+            <figure class="media-card ring-bottom">
+              <img src="images/decorativa5.jpg" alt="Fotografía decorativa 05">
+              <figcaption></figcaption>
+            </figure>
+
+            <figure class="media-card ring-br">
+              <img src="images/decorativa6.jpg" alt="Fotografía decorativa 06">
+              <figcaption></figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      <section id="quiz">
+        <div class="section-banner">
+          <p class="eyebrow">QUIZ · クイズ</p>
+          <h2>¿Qué tan bien conoces a las naciones?</h2>
+        </div>
+        <div class="quiz">
+          <article class="panel quiz-card">
+            <div class="question" id="question">Cargando pregunta…</div>
+            <div class="answers" id="answers"></div>
+            <div id="quizFeedback" class="small" style="margin-top:10px"></div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
+              <button class="btn" id="nextQuestion" type="button">SIGUIENTE</button>
+              <button class="btn alt" id="restartQuiz" type="button">REINICIAR</button>
+            </div>
+          </article>
+          <aside class="panel" style="position:relative;max-height:none;height:auto;border:3px solid var(--ink);padding:14px;background:#fff9d9">
+            <div class="score">PUNTUACIÓN<br><span id="score">0</span> / <span id="total">10</span></div>
+            <div style="margin-top:12px">
+              <b>Reto extra</b>
+              <p class="small">Cada partida selecciona <b>10 preguntas diferentes al azar</b> y mezcla también las respuestas.</p>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section id="notas">
+        <div class="section-banner">
+          <p class="eyebrow">MEMO · 会議録</p>
+          <h2>Actas de la conferencia</h2>
+        </div>
+        <div class="notes">
+          <form class="paper" id="noteForm">
+            <h3>Escribe una nota</h3>
+            <label for="noteTitle">Título</label>
+            <input id="noteTitle" maxlength="60" required placeholder="Ej.: Reunión extraordinaria">
+
+            <label for="noteBody" style="margin-top:9px">Mensaje</label>
+            <textarea id="noteBody" maxlength="280" required placeholder="Escribe lo que ocurrió en la mesa..."></textarea>
+
+            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
+              <button class="btn" type="submit">GUARDAR</button>
+              <button class="btn alt" type="button" id="clearNotes">VACIAR</button>
+            </div>
+            <div id="noteStatus" class="small" style="margin-top:8px"></div>
+          </form>
+          <div class="notes-list paper" id="notesList"></div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <footer>
+    <div class="footer-row">
+      <div><b>HETALIA ★ WORLD MEETING</b><br><span class="small">Página fan no oficial. Hetalia y sus personajes pertenecen a sus respectivos titulares.</span></div>
+      <div class="small">API: AniList · Galería y multimedia</div>
+    </div>
+  </footer>
+</div>
+
+<div class="modal" id="modal">
+  <div class="modal-card">
+    <button class="close" id="closeModal" type="button">✕</button>
+    <div id="modalContent"></div>
+  </div>
+</div>
+
+<div class="lightbox" id="lightbox"><img id="lightboxImg" alt="Imagen ampliada"></div>
+<div class="toast" id="toast">Listo.</div>
+
+<script>
+  const characters = [
+    {
+      id:"ita",
+      audio:"audio/intro-italia.mp3",
+      detailImg:"images/italia2.jpg", nation:"Italia del Norte", short:"Italia", group:"Eje", human:"Feliciano Vargas",
+      img:"images/italia.jpg",
+      summary:"Alegre, sociable y muy expresivo; suele apoyarse en Alemania cuando surge un problema.",
+      facts:[["Rol","Protagonista / Eje"],["Nombre humano","Feliciano Vargas"],["Apariencia","Joven de unos 20 años"],["Cumpleaños","17 de marzo"],["Rasgos","Alegre, sociable, torpe"],["Aficiones","Arte y cocina"],["Comida","Pasta, pizza, gelato"],["Relaciones","Alemania, Japón, Romano"]],
+      traits:["Pasta","Arte","Cocina","Eje"],
+      details:"Italia es el personaje central de la primera etapa y uno de los principales motores de la comedia. Su gusto por la comida, la música y las relaciones sociales contrasta con el sentido del deber de Alemania.",
+      extra:"images/italia-extra.jpg"
+    },
+    {
+      id:"ger",
+      audio:"audio/intro-alemania.mp3",
+      detailImg:"images/alemania2.jpg", nation:"Alemania", short:"Alemania", group:"Eje", human:"Ludwig Beilschmidt",
+      img:"images/alemania.jpg",
+      summary:"Serio, organizado y trabajador; intenta mantener las reuniones y a Italia bajo control.",
+      facts:[["Rol","Miembro principal / Eje"],["Nombre humano","Ludwig Beilschmidt"],["Carácter","Serio y disciplinado"],["Rasgos","Orden, puntualidad"],["Aficiones","Repostería"],["Fortaleza","Planificación"],["Relaciones","Italia, Japón"],["Estilo","Formal y metódico"]],
+      traits:["Orden","Disciplina","Pasteles","Eje"],
+      details:"Su personalidad funciona como contraste con la espontaneidad de Italia. Es una figura muy responsable y estricta, aunque también tiene un lado doméstico y amable asociado a la cocina.",
+      extra:"images/alemania-extra.jpg"
+    },
+    {
+      id:"jpn",
+      audio:"audio/intro-japon.mp3",
+      detailImg:"images/japon2.jpg", nation:"Japón", short:"Japón", group:"Eje", human:"Kiku Honda",
+      img:"images/japon.jpg",
+      summary:"Reservado, educado y observador; suele analizar lo que ocurre antes de intervenir.",
+      facts:[["Rol","Miembro principal / Eje"],["Nombre humano","Kiku Honda"],["Carácter","Reservado y educado"],["Rasgos","Trabajador y prudente"],["Intereses","Cultura y tecnología"],["Fortaleza","Observación"],["Relaciones","Alemania, Italia, China"],["Estilo","Formal y tranquilo"]],
+      traits:["Sakura","Té","Cultura","Observación"],
+      details:"Japón suele ser el contrapunto sereno del grupo. Gran parte del humor aparece cuando sus costumbres y su reserva se enfrentan a personajes más impulsivos.",
+      extra:"images/japon-extra.jpg"
+    },
+    {
+      id:"usa",
+      audio:"audio/intro-america.mp3",
+      detailImg:"images/america2.jpg", nation:"Estados Unidos", short:"América", group:"Aliados", human:"Alfred F. Jones",
+      img:"images/america.jpg",
+      summary:"Enérgico, optimista y obsesionado con ser el héroe de cualquier situación.",
+      facts:[["Rol","Figura principal / Aliados"],["Nombre humano","Alfred F. Jones"],["Apariencia","Joven de unos 19 años"],["Cumpleaños","4 de julio"],["Carácter","Enérgico y ruidoso"],["Intereses","Héroes y cultura pop"],["Comida","Hamburguesas"],["Relaciones","Inglaterra, Canadá"]],
+      traits:["Héroe","Hamburguesa","Aliados","Energía"],
+      details:"Estados Unidos suele intervenir con ideas grandiosas y mucha confianza. Sus choques con Inglaterra son una parte recurrente del humor de la serie.",
+      extra:"images/america-extra.jpg"
+    },
+    {
+      id:"eng",
+      audio:"audio/intro-inglaterra.mp3",
+      detailImg:"images/inglaterra2.jpg", nation:"Inglaterra / Reino Unido", short:"Inglaterra", group:"Aliados", human:"Arthur Kirkland",
+      img:"images/inglaterra.jpg",
+      summary:"Sarcástico, orgulloso y reservado, con una faceta sensible que rara vez muestra.",
+      facts:[["Rol","Figura principal / Aliados"],["Nombre humano","Arthur Kirkland"],["Carácter","Sarcástico y reservado"],["Rasgos","Té, tradición, orgullo"],["Aficiones","Magia y costumbres"],["Historia","Antiguo pirata"],["Relaciones","Estados Unidos, Francia"],["Estilo","Británico y formal"]],
+      traits:["Té","Cejas","Magia","Aliados"],
+      details:"Arthur combina una actitud áspera con una gran preocupación por las personas cercanas. La complicada relación con Estados Unidos y la rivalidad con Francia alimentan muchas escenas cómicas.",
+      extra:"images/inglaterra-extra.jpg"
+    },
+    {
+      id:"fra",
+      audio:"audio/intro-francia.mp3",
+      detailImg:"images/francia2.jpg", nation:"Francia", short:"Francia", group:"Aliados", human:"Francis Bonnefoy",
+      img:"images/francia.jpg",
+      summary:"Encantador, dramático y muy seguro de su gusto; destaca por la gastronomía, el arte y su rivalidad con Inglaterra.",
+      facts:[["Rol","Figura principal / Aliados"],["Nombre humano","Francis Bonnefoy"],["Apariencia","26 años (apariencia)"],["Cumpleaños","14 de julio"],["Carácter","Romántico y presumido"],["Rasgos","Arte y gastronomía"],["Comida","Cocina gourmet"],["Relaciones","Inglaterra, Estados Unidos, Italia"]],
+      traits:["Arte","Gastronomía","Rosa","Aliados"],
+      details:"Francia es uno de los protagonistas de las Fuerzas Aliadas. Tiene una personalidad muy expresiva, disfruta de la buena cocina y mantiene una rivalidad histórica y cómica con Inglaterra. Su nombre humano es Francis Bonnefoy.",
+      extra:"images/francia-extra.jpg"
+    },
+    {
+      id:"chn",
+      audio:"audio/intro-china.mp3",
+      detailImg:"images/china2.jpg", nation:"China", short:"China", group:"Aliados", human:"Yao Wang",
+      img:"images/china.jpg",
+      summary:"Una de las naciones más antiguas del reparto, protectora y expresiva, con una larga historia compartida con otras naciones de Asia.",
+      facts:[["Rol","Figura principal / Aliados"],["Nombre humano","Yao Wang"],["Carácter","Expresivo y protector"],["Rasgos","Experiencia y autoridad"],["Aficiones","Cocina y cultura"],["Símbolo","Panda"],["Relaciones","Japón, Rusia, Estados Unidos"],["Estilo","Tradicional y enérgico"]],
+      traits:["Panda","Cocina","Asia","Aliados"],
+      details:"China es uno de los personajes recurrentes de la serie y suele presentarse como una figura experimentada, protectora y muy expresiva. Sus interacciones con Japón, Rusia y otras naciones aportan buena parte de sus escenas cómicas.",
+      extra:"images/china-extra.jpg"
+    },
+    {
+      id:"rus",
+      audio:"audio/intro-rusia.mp3",
+      detailImg:"images/rusia2.jpg", nation:"Rusia", short:"Rusia", group:"Aliados", human:"Ivan Braginski",
+      img:"images/rusia.jpg",
+      summary:"Imponente, aparentemente amable y capaz de pasar de la tranquilidad a una actitud inquietante con gran facilidad.",
+      facts:[["Rol","Figura principal / Aliados"],["Nombre humano","Ivan Braginski"],["Carácter","Amable e inquietante"],["Rasgos","Poder y resistencia"],["Aficiones","Girasoles y bebidas calientes"],["Símbolo","Girasol"],["Relaciones","China, Estados Unidos"],["Estilo","Calmado e impredecible"]],
+      traits:["Girasol","Invierno","Rusia","Aliados"],
+      details:"Rusia es uno de los personajes principales de las Fuerzas Aliadas. Su apariencia tranquila y sonrisa amable contrastan con una personalidad que puede resultar intimidante. Sus relaciones con China y otras naciones aparecen con frecuencia en la comedia.",
+      extra:"images/rusia-extra.jpg"
+    }
+  ];
+
+  // Banco amplio de preguntas. Cada partida selecciona una combinación distinta.
+  const quizBank = [
+    {q:"¿Cuál es el nombre humano de Italia del Norte?", a:["Feliciano Vargas","Ludwig Beilschmidt","Arthur Kirkland","Francis Bonnefoy"], c:0},
+    {q:"¿Cuál es el nombre humano de Alemania?", a:["Kiku Honda","Ludwig Beilschmidt","Alfred F. Jones","Feliciano Vargas"], c:1},
+    {q:"¿Cuál es el nombre humano de Japón?", a:["Francis Bonnefoy","Arthur Kirkland","Kiku Honda","Ludwig Beilschmidt"], c:2},
+    {q:"¿Cuál es el nombre humano de Estados Unidos?", a:["Alfred F. Jones","Feliciano Vargas","Arthur Kirkland","Kiku Honda"], c:0},
+    {q:"¿Cuál es el nombre humano de Inglaterra?", a:["Francis Bonnefoy","Arthur Kirkland","Ludwig Beilschmidt","Alfred F. Jones"], c:1},
+    {q:"¿Cuál es el nombre humano de Francia?", a:["Feliciano Vargas","Kiku Honda","Francis Bonnefoy","Arthur Kirkland"], c:2},
+    {q:"¿Quién forma parte del trío central del Eje?", a:["Francia","Japón","Canadá","Rusia"], c:1},
+    {q:"¿Qué grupo reúne a Italia del Norte, Alemania y Japón?", a:["Las Fuerzas Aliadas","El Consejo Mundial","Las Potencias del Eje","La Liga del Norte"], c:2},
+    {q:"¿Qué personaje está especialmente asociado con la pasta?", a:["Italia","Japón","Francia","Inglaterra"], c:0},
+    {q:"¿Qué personaje destaca por su afición al té?", a:["Estados Unidos","Alemania","Inglaterra","Japón"], c:2},
+    {q:"¿Qué personaje está asociado con hamburguesas y la idea de ser un héroe?", a:["Francia","Estados Unidos","Italia","Alemania"], c:1},
+    {q:"¿Qué personaje destaca por su reserva y educación?", a:["Japón","Estados Unidos","Francia","Italia"], c:0},
+    {q:"¿Qué personaje suele representar el orden y la disciplina?", a:["Alemania","Francia","Italia","Estados Unidos"], c:0},
+    {q:"¿Qué personaje está especialmente relacionado con la gastronomía y el arte en esta página?", a:["Francia","Japón","Alemania","Estados Unidos"], c:0},
+    {q:"¿Qué personaje mantiene una rivalidad cómica muy conocida con Inglaterra?", a:["Francia","Canadá","Japón","Alemania"], c:0},
+    {q:"¿Cuál de estos personajes pertenece a las Fuerzas Aliadas?", a:["Italia","Alemania","Japón","Francia"], c:3},
+    {q:"¿Cuál de estos personajes pertenece al grupo del Eje?", a:["Inglaterra","Estados Unidos","Alemania","Francia"], c:2},
+    {q:"¿Quién es conocido como Arthur Kirkland?", a:["Inglaterra","Japón","Francia","Estados Unidos"], c:0},
+    {q:"¿Quién es conocido como Francis Bonnefoy?", a:["Alemania","Francia","Italia","Inglaterra"], c:1},
+    {q:"¿Quién es conocido como Kiku Honda?", a:["Estados Unidos","Italia","Japón","Alemania"], c:2},
+    {q:"¿Quién es conocido como Alfred F. Jones?", a:["Francia","Estados Unidos","Alemania","Japón"], c:1},
+    {q:"¿Quién es conocido como Feliciano Vargas?", a:["Italia del Norte","Francia","Inglaterra","Japón"], c:0},
+    {q:"¿Quién es conocido como Ludwig Beilschmidt?", a:["Alemania","Estados Unidos","Francia","Italia"], c:0},
+    {q:"¿Cuál de estas opciones describe mejor a Francia?", a:["Reservado y silencioso","Romántico, expresivo y gastronómico","Disciplinado y metódico","Siempre busca ser el héroe"], c:1},
+    {q:"¿Cuál de estas opciones describe mejor a Alemania?", a:["Ordenado y trabajador","Muy presumido con la moda","Siempre busca ser un héroe","Reservado ante la tecnología"], c:0},
+    {q:"¿Cuál de estas opciones describe mejor a Italia?", a:["Serio y metódico","Alegre, expresivo y algo torpe","Sarcástico y orgulloso","Muy reservado y formal"], c:1},
+    {q:"¿Cuál de estas opciones describe mejor a Japón?", a:["Expansivo y ruidoso","Romántico y dramático","Reservado, educado y observador","Impulsivo y despreocupado"], c:2},
+    {q:"¿Cuál de estas opciones describe mejor a Estados Unidos?", a:["Enérgico y optimista","Reservado y solemne","Muy silencioso","Metódico y austero"], c:0},
+    {q:"¿Cuál de estas opciones describe mejor a Inglaterra?", a:["Sarcástico y orgulloso","Siempre alegre y despreocupado","Muy ruidoso y heroico","Tímido y torpe"], c:0},
+    {q:"¿En qué grupo aparece Francia en esta página?", a:["Eje","Aliados","Neutral","Consejo del Norte"], c:1},
+    {q:"¿Cuál es el nombre humano de China?", a:["Yao Wang","Ivan Braginski","Arthur Kirkland","Kiku Honda"], c:0},
+    {q:"¿Cuál es el nombre humano de Rusia?", a:["Francis Bonnefoy","Yao Wang","Ivan Braginski","Alfred F. Jones"], c:2},
+    {q:"¿Qué personaje está asociado especialmente con los pandas?", a:["Rusia","China","Francia","Japón"], c:1},
+    {q:"¿Qué personaje está asociado especialmente con los girasoles?", a:["Rusia","China","Alemania","Italia"], c:0},
+    {q:"¿Quién es conocido como Yao Wang?", a:["China","Rusia","Francia","Japón"], c:0},
+    {q:"¿Quién es conocido como Ivan Braginski?", a:["Estados Unidos","China","Rusia","Inglaterra"], c:2},
+    {q:"¿Cuál de estos personajes pertenece a las Fuerzas Aliadas?", a:["China","Alemania","Japón","Italia"], c:0},
+    {q:"¿Cuál de estos personajes pertenece a las Fuerzas Aliadas?", a:["Rusia","Japón","Alemania","Italia"], c:0},
+    {q:"¿Qué personaje aparece especialmente relacionado con Japón y otras naciones de Asia?", a:["China","Francia","Estados Unidos","Italia"], c:0},
+    {q:"¿Qué personaje suele presentarse como una figura tranquila pero inquietante?", a:["Rusia","China","Alemania","Francia"], c:0}
+  ];
+
+  const $ = (s)=>document.querySelector(s);
+  const $$ = (s)=>[...document.querySelectorAll(s)];
+
+  function escapeHtml(v){
+    return String(v).replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));
+  }
+
+  // Detecta la proporción real de cada imagen/GIF/vídeo y cambia el tamaño
+  // de su tarjeta para que el diseño se adapte al contenido.
+  function classifyMediaRatio(element, ratio){
+    if(!ratio || !isFinite(ratio) || ratio <= 0) return;
+    const holder = element.closest(".media-card, .gallery figure, .char-media, .visual");
+    if(!holder) return;
+
+    ["wide","landscape","square","portrait","tall"].forEach(cls=>holder.classList.remove(cls));
+
+    let cls="square";
+    if(ratio>=1.85) cls="wide";
+    else if(ratio>=1.20) cls="landscape";
+    else if(ratio>=0.85) cls="square";
+    else if(ratio>=0.60) cls="portrait";
+    else cls="tall";
+
+    holder.classList.add(cls);
+    holder.style.setProperty("--media-ratio", ratio.toFixed(4));
+    element.style.setProperty("--media-ratio", ratio.toFixed(4));
+  }
+
+  function prepareMedia(root=document){
+    root.querySelectorAll("img").forEach(img=>{
+      const measure=()=>{
+        if(img.naturalWidth && img.naturalHeight){
+          classifyMediaRatio(img, img.naturalWidth/img.naturalHeight);
+        }
+      };
+      if(img.complete) measure();
+      else img.addEventListener("load", measure, {once:true});
+    });
+
+    root.querySelectorAll("video").forEach(video=>{
+      const measure=()=>{
+        if(video.videoWidth && video.videoHeight){
+          classifyMediaRatio(video, video.videoWidth/video.videoHeight);
+        }
+      };
+      if(video.readyState>=1) measure();
+      else video.addEventListener("loadedmetadata", measure, {once:true});
+    });
+  }
+
+  function renderCharacters(filter="all"){
+    const list = filter==="all" ? characters : characters.filter(c=>c.group===filter);
+    $("#characterGrid").innerHTML = list.map(c=>`
+      <article class="char">
+        <div class="char-head">
+          <div class="char-media">
+            <img class="char-image" src="${c.img}" alt="Retrato de ${c.short}" onerror="this.style.opacity='.18'">
+          </div>
+          <div>
+            <span class="group-tag">${c.group.toUpperCase()}</span>
+            <h3>${escapeHtml(c.short)}</h3>
+            <div class="human">Nombre humano: ${escapeHtml(c.human)}</div>
+            <p class="summary">${escapeHtml(c.summary)}</p>
+            <div class="facts">
+              ${c.facts.map(([k,v])=>`<div class="fact"><b>${escapeHtml(k)}</b>${escapeHtml(v)}</div>`).join("")}
+            </div>
+          </div>
+        </div>
+        <div class="char-body">
+          <div class="traits">${c.traits.map(t=>`<span class="trait">${escapeHtml(t)}</span>`).join("")}</div>
+          <div class="character-music">
+            <div class="music-label">
+              <span>♪ CHARACTER THEME</span>
+              <span class="music-file">${escapeHtml(c.audio)}</span>
+            </div>
+            <audio controls preload="none">
+              <source src="${c.audio}" type="audio/mpeg">
+              Tu navegador no permite reproducir este audio.
+            </audio>
+          </div>
+          <div class="char-actions">
+            <button class="btn" data-action="detail" data-id="${c.id}" type="button">FICHA COMPLETA</button>
+            <button class="btn green" data-action="copy" data-id="${c.id}" type="button">COPIAR NOMBRE</button>
+          </div>
+        </div>
+      </article>
+    `).join("");
+    prepareMedia($("#characterGrid"));
+  }
+
+  renderCharacters();
+  prepareMedia(document);
+
+  $("#filters").addEventListener("click",(e)=>{
+    const b=e.target.closest("[data-filter]");
+    if(!b)return;
+    $$("#filters [data-filter]").forEach(x=>x.classList.remove("active"));
+    b.classList.add("active");
+    renderCharacters(b.dataset.filter);
+  });
+
+  $("#characterGrid").addEventListener("click",async(e)=>{
+    const b=e.target.closest("[data-action]");
+    if(!b)return;
+    const c=characters.find(x=>x.id===b.dataset.id);
+    if(!c)return;
+
+    if(b.dataset.action==="detail"){
+      $("#modalContent").innerHTML=`
+        <div class="modal-grid">
+          <img class="detail-image" src="${c.detailImg}" alt="${escapeHtml(c.short)}" onerror="this.src=c.img;this.style.opacity='.2'">
+          <div>
+            <p class="eyebrow">${escapeHtml(c.group)} · CHARACTER PROFILE</p>
+            <h2>${escapeHtml(c.short)}</h2>
+            <h3 style="margin-bottom:4px">Nombre humano: ${escapeHtml(c.human)}</h3>
+            <p>${escapeHtml(c.details)}</p>
+            <div class="facts">
+              ${c.facts.map(([k,v])=>`<div class="fact"><b>${escapeHtml(k)}</b>${escapeHtml(v)}</div>`).join("")}
+            </div>
+            <div class="detail-music">
+              <b>♪ MÚSICA DEL PERSONAJE</b>
+              <div class="music-file">${escapeHtml(c.audio)}</div>
+              <audio controls preload="none">
+                <source src="${c.audio}" type="audio/mpeg">
+                Tu navegador no permite reproducir este audio.
+              </audio>
+            </div>
+          </div>
+        </div>`;
+      $("#modal").classList.add("open");
+      prepareMedia($("#modal"));
+    }
+
+    if(b.dataset.action==="copy"){
+      try{
+        await navigator.clipboard.writeText(c.human);
+        showToast("Nombre copiado: "+c.human);
+      }catch{
+        showToast("No se pudo copiar automáticamente.");
+      }
+    }
+  });
+
+  $("#randomBtn").addEventListener("click",randomCharacter);
+  function randomCharacter(){
+    const c=characters[Math.floor(Math.random()*characters.length)];
+    $("#modalContent").innerHTML=`
+      <div class="modal-grid">
+        <img class="detail-image" src="${c.detailImg}" alt="${escapeHtml(c.short)}" onerror="this.src=c.img;this.style.opacity='.2'">
+        <div>
+          <p class="eyebrow">RANDOM NATION · 選ばれた国</p>
+          <h2>${escapeHtml(c.short)}</h2>
+          <h3>Nombre humano: ${escapeHtml(c.human)}</h3>
+          <p>${escapeHtml(c.summary)}</p>
+          <p><b>Dato destacado:</b> ${escapeHtml(c.details)}</p>
+          <div class="detail-music">
+            <b>♪ CHARACTER THEME</b>
+            <div class="music-file">${escapeHtml(c.audio)}</div>
+            <audio controls preload="none">
+              <source src="${c.audio}" type="audio/mpeg">
+              Tu navegador no permite reproducir este audio.
+            </audio>
+          </div>
+        </div>
+      </div>`;
+    $("#modal").classList.add("open");
+    prepareMedia($("#modal"));
+  }
+
+  document.addEventListener("keydown",e=>{
+    if(e.key.toLowerCase()==="r" && !e.target.matches("input,textarea,select")) randomCharacter();
+  });
+
+  $("#closeModal").addEventListener("click",()=>$("#modal").classList.remove("open"));
+  $("#modal").addEventListener("click",e=>{
+    if(e.target.id==="modal")$("#modal").classList.remove("open");
+  });
+
+  // API pública de AniList (GraphQL).
+  const ANILIST_URL = "https://graphql.anilist.co";
+  let currentApiMedia = null;
+
+  async function anilistRequest(query, variables={}){
+    const response = await fetch(ANILIST_URL,{
+      method:"POST",
+      headers:{"Content-Type":"application/json","Accept":"application/json"},
+      body:JSON.stringify({query,variables})
+    });
+    const payload = await response.json();
+    if(!response.ok || payload.errors) throw new Error(payload.errors?.[0]?.message || `HTTP ${response.status}`);
+    return payload.data;
+  }
+
+  const animeQuery = `
+    query($search:String!){
+      Page(page:1, perPage:4){
+        media(search:$search, type:ANIME){
+          id
+          title{romaji english native}
+          description(asHtml:false)
+          episodes
+          status
+          format
+          averageScore
+          popularity
+          startDate{year month day}
+          coverImage{large}
+          siteUrl
+        }
+      }
+    }`;
+
+  const charQuery = `
+    query($id:Int!){
+      Media(id:$id){
+        title{romaji english}
+        characters(page:1, perPage:12){
+          edges{
+            role
+            node{name{full} image{large}}
+          }
+        }
+      }
+    }`;
+
+  async function loadAnimeApi(){
+    const search = $("#apiSearch").value.trim() || "Hetalia: Axis Powers";
+    const status=$("#apiConsoleStatus");
+    $("#apiStatus").textContent="Conectando con AniList…";
+    $("#apiDot").className="dot";
+    status.textContent="API: consultando…";
+    $("#apiResult").innerHTML="<h3>Consultando datos…</h3><p class='small'>Buscando en AniList.</p>";
+    try{
+      const data=await anilistRequest(animeQuery,{search});
+      const media=data.Page.media?.[0];
+      if(!media) throw new Error("No se encontraron resultados");
+      currentApiMedia=media;
+      $("#apiDot").className="dot ok";
+      $("#apiStatus").textContent="Conectado";
+      status.textContent=`API: resultado encontrado para “${search}”.`;
+      const desc=(media.description||"Sin sinopsis disponible.").replace(/<[^>]*>/g,"");
+      const year=media.startDate?.year || "—";
+      $("#apiResult").innerHTML=`
+        <div class="hero-info">
+          <img src="${media.coverImage?.large||""}" alt="${escapeHtml(media.title?.english||media.title?.romaji||"Anime")}">
+          <div>
+            <p class="eyebrow">LIVE DATA · ANILIST</p>
+            <h3 style="font-size:1.6rem">${escapeHtml(media.title?.english||media.title?.romaji||"Sin título")}</h3>
+            <p class="small">${escapeHtml(media.title?.romaji||"")} · ${escapeHtml(media.title?.native||"")}</p>
+            <p>${escapeHtml(desc.slice(0,720))}</p>
+            <div class="stat-row">
+              <div class="stat"><b>Episodios</b>${media.episodes ?? "—"}</div>
+              <div class="stat"><b>Puntuación</b>${media.averageScore ?? "—"}</div>
+              <div class="stat"><b>Popularidad</b>${media.popularity?.toLocaleString?.("es-ES") ?? "—"}</div>
+            </div>
+            <div class="small" style="margin-top:7px">Formato: ${escapeHtml(media.format||"—")} · Estado: ${escapeHtml(media.status||"—")} · Año: ${year}</div>
+            ${media.siteUrl?`<a class="small" href="${media.siteUrl}" target="_blank" rel="noopener" style="display:inline-block;margin-top:7px">Abrir ficha en AniList ↗</a>`:""}
+          </div>
+        </div>`;
+    }catch(err){
+      currentApiMedia=null;
+      $("#apiDot").className="dot";
+      $("#apiStatus").textContent="Sin conexión";
+      status.textContent="API: no se pudo obtener una respuesta. Revisa tu conexión o inténtalo de nuevo.";
+      $("#apiResult").innerHTML=`<h3>No se pudo cargar la API</h3><p class='small'>${escapeHtml(err.message||"Error de conexión")}</p>`;
+    }
+  }
+
+  async function loadApiCharacters(){
+    if(!currentApiMedia) await loadAnimeApi();
+    if(!currentApiMedia) return;
+    const box=$("#apiCharacterList"), grid=$("#apiCharsGrid");
+    box.classList.remove("hidden");
+    grid.innerHTML="<p class='small'>Cargando elenco…</p>";
+    try{
+      const data=await anilistRequest(charQuery,{id:currentApiMedia.id});
+      const chars=data.Media?.characters?.edges||[];
+      grid.innerHTML=chars.map(item=>{
+        const c=item.node;
+        return `<figure><img src="${c?.image?.large||""}" alt="${escapeHtml(c?.name?.full||"Personaje")}" style="height:175px" onerror="this.style.opacity='.15'"><figcaption><b>${escapeHtml(c?.name?.full||"—")}</b><br><span class="small">${escapeHtml(item.role||"")}</span></figcaption></figure>`;
+      }).join("") || "<p class='small'>No hay personajes disponibles para esta ficha.</p>";
+    }catch(err){
+      grid.innerHTML=`<p class='small'>No se pudo cargar el elenco: ${escapeHtml(err.message||"Error")}</p>`;
+    }
+  }
+
+  $("#apiLoad").addEventListener("click",loadAnimeApi);
+  $("#apiCharacters").addEventListener("click",loadApiCharacters);
+  $("#closeApiChars").addEventListener("click",()=>$("#apiCharacterList").classList.add("hidden"));
+  $("#apiSearch").addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();loadAnimeApi()}});
+  loadAnimeApi();
+
+  // Galería / lightbox.
+  $("#gallery").addEventListener("click",e=>{
+    const img=e.target.closest("img");
+    if(!img)return;
+    $("#lightboxImg").src=img.src;
+    $("#lightboxImg").alt=img.alt;
+    $("#lightbox").classList.add("open");
+  });
+  $("#lightbox").addEventListener("click",()=>$("#lightbox").classList.remove("open"));
+  document.addEventListener("keydown",e=>{if(e.key==="Escape"){$("#lightbox").classList.remove("open");$("#modal").classList.remove("open")}});
+
+  // Quiz: 10 preguntas aleatorias de un banco amplio, sin repetir dentro de la partida.
+  let quizQuestions=[];
+  let quizIndex=0;
+  let score=0;
+  let answered=false;
+  let quizFinished=false;
+  const QUIZ_LENGTH=10;
+
+  function shuffle(array){
+    const copy=[...array];
+    for(let i=copy.length-1;i>0;i--){
+      const j=Math.floor(Math.random()*(i+1));
+      [copy[i],copy[j]]=[copy[j],copy[i]];
+    }
+    return copy;
+  }
+
+  function prepareQuiz(){
+    quizQuestions=shuffle(quizBank)
+      .slice(0,Math.min(QUIZ_LENGTH,quizBank.length))
+      .map(item=>{
+        const answers=shuffle(item.a.map((text,index)=>({text,index})));
+        return {
+          q:item.q,
+          a:answers.map(x=>x.text),
+          c:answers.findIndex(x=>x.index===item.c)
+        };
+      });
+    quizIndex=0;
+    score=0;
+    answered=false;
+    quizFinished=false;
+  }
+
+  function renderQuiz(){
+    const item=quizQuestions[quizIndex];
+    $("#question").textContent=`Pregunta ${quizIndex+1} de ${quizQuestions.length}: ${item.q}`;
+    $("#answers").innerHTML=item.a.map((x,i)=>`<button data-answer="${i}" type="button">${escapeHtml(x)}</button>`).join("");
+    $("#quizFeedback").textContent="";
+    $("#score").textContent=Math.min(score,quizQuestions.length);
+    $("#total").textContent=quizQuestions.length;
+    $("#nextQuestion").disabled=true;
+    $("#nextQuestion").textContent=quizIndex===quizQuestions.length-1 ? "VER RESULTADO" : "SIGUIENTE";
+    $("#nextQuestion").classList.remove("hidden");
+    answered=false;
+    quizFinished=false;
+  }
+
+  function finishQuiz(){
+    quizFinished=true;
+    score=Math.min(score,quizQuestions.length);
+    $("#question").textContent=`Resultado final: ${score} / ${quizQuestions.length}`;
+    $("#answers").innerHTML="";
+    $("#quizFeedback").textContent=score===quizQuestions.length
+      ? "★ ¡Puntuación perfecta!"
+      : `Has acertado ${score} de ${quizQuestions.length}. ¡Puedes jugar otra vez para obtener una combinación distinta!`;
+    $("#nextQuestion").classList.add("hidden");
+    $("#score").textContent=score;
+  }
+
+  $("#answers").addEventListener("click",e=>{
+    const b=e.target.closest("[data-answer]");
+    if(!b || answered || quizFinished)return;
+
+    answered=true;
+    const item=quizQuestions[quizIndex];
+    const selected=Number(b.dataset.answer);
+
+    $$("#answers button").forEach((button,index)=>{
+      button.disabled=true;
+      if(index===item.c)button.classList.add("correct");
+    });
+
+    if(selected===item.c){
+      score=Math.min(score+1,quizQuestions.length);
+      b.classList.add("correct");
+      $("#quizFeedback").textContent="✓ ¡Correcto!";
+    }else{
+      b.classList.add("wrong");
+      $("#quizFeedback").textContent="✕ La respuesta correcta está marcada.";
+    }
+
+    $("#score").textContent=score;
+    $("#nextQuestion").disabled=false;
+  });
+
+  $("#nextQuestion").addEventListener("click",()=>{
+    if(!answered || quizFinished)return;
+    if(quizIndex<quizQuestions.length-1){
+      quizIndex++;
+      renderQuiz();
+    }else{
+      finishQuiz();
+    }
+  });
+
+  $("#restartQuiz").addEventListener("click",()=>{
+    prepareQuiz();
+    renderQuiz();
+  });
+
+  prepareQuiz();
+  renderQuiz();
+
+  // Notas en localStorage.
+  const NOTE_KEY="hetalia-world-meeting-notes";
+  let notes=[]; try{notes=JSON.parse(localStorage.getItem(NOTE_KEY)||"[]")}catch{notes=[]}
+  function renderNotes(){
+    const list=$("#notesList");
+    if(!notes.length){list.innerHTML="<p class='small'>No hay actas guardadas todavía.</p>";return}
+    list.innerHTML=notes.map(n=>`
+      <article class="paper" style="padding:10px;margin-bottom:9px">
+        <h3 style="margin:.1rem 0">${escapeHtml(n.title)}</h3>
+        <p>${escapeHtml(n.body)}</p>
+        <div class="small">${escapeHtml(n.when)}</div>
+      </article>`).join("");
+  }
+  $("#noteForm").addEventListener("submit",e=>{
+    e.preventDefault();
+    const title=$("#noteTitle").value.trim(), body=$("#noteBody").value.trim();
+    if(title.length<3||body.length<8){$("#noteStatus").textContent="Escribe un título y un mensaje más completos.";return}
+    notes.unshift({title,body,when:new Date().toLocaleString("es-ES")});
+    notes=notes.slice(0,8);
+    localStorage.setItem(NOTE_KEY,JSON.stringify(notes));
+    e.target.reset();$("#noteStatus").textContent="Acta guardada en este dispositivo.";renderNotes();
+  });
+  $("#clearNotes").addEventListener("click",()=>{notes=[];localStorage.setItem(NOTE_KEY,"[]");renderNotes();$("#noteStatus").textContent="Cuaderno vaciado."});
+  renderNotes();
+  window.addEventListener("load",()=>prepareMedia(document));
+
+  // Temas múltiples: el botón existente recorre las paletas y los botones permiten elegirlas.
+  const THEME_KEY="hetalia-world-theme";
+  const THEMES=["classic","italy","japan","france","china","russia","world"];
+  let currentTheme=localStorage.getItem(THEME_KEY)||"classic";
+
+  function applyTheme(theme){
+    if(!THEMES.includes(theme))theme="classic";
+    THEMES.forEach(t=>document.body.classList.remove("theme-"+t));
+    document.body.classList.add("theme-"+theme);
+    currentTheme=theme;
+    localStorage.setItem(THEME_KEY,theme);
+
+    $$("#themeSwatches .theme-swatch").forEach(btn=>{
+      btn.classList.toggle("active",btn.dataset.theme===theme);
+    });
+
+    const labels={classic:"CLÁSICO",italy:"ITALIA",japan:"JAPÓN",france:"FRANCIA",china:"CHINA",russia:"RUSIA",world:"WORLD"};
+    $("#nightBtn").textContent="☾ TEMA: "+labels[theme];
+  }
+
+  $("#themeSwatches").addEventListener("click",e=>{
+    const btn=e.target.closest("[data-theme]");
+    if(btn)applyTheme(btn.dataset.theme);
+  });
+
+  $("#nightBtn").addEventListener("click",()=>{
+    const i=THEMES.indexOf(currentTheme);
+    applyTheme(THEMES[(i+1)%THEMES.length]);
+  });
+
+  applyTheme(currentTheme);
+
+  // Navegación activa.
+  const navLinks=$$("#nav a");
+  const secs=[...document.querySelectorAll("main section")];
+  const io=new IntersectionObserver(entries=>{
+    entries.forEach(entry=>{
+      if(!entry.isIntersecting)return;
+      navLinks.forEach(a=>a.classList.toggle("active",a.getAttribute("href")==="#"+entry.target.id));
+    });
+  },{rootMargin:"-35% 0px -55% 0px"});
+  secs.forEach(s=>io.observe(s));
+
+  function showToast(msg){
+    const t=$("#toast");t.textContent=msg;t.classList.add("show");
+    clearTimeout(window.__toast);window.__toast=setTimeout(()=>t.classList.remove("show"),1800);
+  }
+</script>
+</body>
+</html>
